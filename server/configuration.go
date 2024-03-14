@@ -11,6 +11,7 @@ import (
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/pluginapi/experimental/bot/logger"
 	"github.com/mattermost/mattermost/server/public/pluginapi/experimental/telemetry"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 	"github.com/pkg/errors"
 )
 
@@ -34,10 +35,17 @@ type configuration struct {
 	JitsiJWT               bool
 	JitsiEmbedded          bool
 	JitsiCompatibilityMode bool
+	JaaSAppID              string
+	JaaSApiKey             string
+	JaaSPrivateKey         string
+	UseJaaS                bool
+	ServerType             string
 	JitsiPrejoinPage       bool
 }
 
+const JaaSServerType = "jaas"
 const publicJitsiServerURL = "https://meet.jit.si"
+const public8x8vcURL = "https://8x8.vc"
 
 // GetJitsiURL return the currently configured JitsiURL or the URL from the
 // public servers provided by Jitsi.
@@ -50,6 +58,10 @@ func (c *configuration) GetJitsiURL() string {
 
 func (c *configuration) GetDefaultJitsiURL() string {
 	return publicJitsiServerURL
+}
+
+func (c *configuration) Get8x8vcURL() string {
+	return public8x8vcURL
 }
 
 // Clone shallow copies the configuration. Your implementation may require a deep copy if
@@ -80,6 +92,20 @@ func (c *configuration) IsValid() error {
 		}
 	}
 
+	if c.ServerType == JaaSServerType {
+		if len(c.JaaSApiKey) == 0 {
+			mlog.Error("error no JaaS Api Key was provided for JaaS")
+		}
+
+		if len(c.JaaSAppID) == 0 {
+			mlog.Error("error no JaaS AppID was provided for JaaS")
+		}
+
+		if len(c.JaaSPrivateKey) == 0 {
+			mlog.Error("error no JaaS Private Key was provided for JaaS")
+		}
+	}
+
 	return nil
 }
 
@@ -91,7 +117,8 @@ func (p *Plugin) getConfiguration() *configuration {
 	defer p.configurationLock.RUnlock()
 
 	if p.configuration == nil {
-		return &configuration{}
+		newConfiguration := configuration{}
+		return &newConfiguration
 	}
 
 	return p.configuration
@@ -122,13 +149,17 @@ func (p *Plugin) setConfiguration(configuration *configuration) {
 	}
 
 	p.API.PublishWebSocketEvent(configChangeEvent, nil, &model.WebsocketBroadcast{})
+	if configuration.ServerType == JaaSServerType {
+		configuration.UseJaaS = true
+	} else {
+		configuration.UseJaaS = false
+	}
 	p.configuration = configuration
 }
 
 // OnConfigurationChange is invoked when configuration changes may have been made.
 func (p *Plugin) OnConfigurationChange() error {
 	var configuration = new(configuration)
-
 	// Load the public configuration fields from the Mattermost server configuration.
 	if err := p.API.LoadPluginConfiguration(configuration); err != nil {
 		return errors.Wrap(err, "failed to load plugin configuration")
@@ -137,7 +168,6 @@ func (p *Plugin) OnConfigurationChange() error {
 	p.tracker = telemetry.NewTracker(p.telemetryClient, p.API.GetDiagnosticId(), p.API.GetServerVersion(), manifest.Id, manifest.Version, "jitsi", telemetry.NewTrackerConfig(p.API.GetConfig()), logger.New(p.API))
 
 	p.setConfiguration(configuration)
-
 	return nil
 }
 

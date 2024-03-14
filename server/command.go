@@ -162,7 +162,7 @@ func (p *Plugin) executeStartMeetingCommand(_ *plugin.Context, args *model.Comma
 			return startMeetingError(args.ChannelId, fmt.Sprintf("startMeeting() threw error: %s", appErr))
 		}
 	} else {
-		if _, err := p.startMeeting(user, channel, "", input, false, args.RootId); err != nil {
+		if _, err := p.startMeeting(user, channel, "", input, args.RootId); err != nil {
 			return startMeetingError(args.ChannelId, fmt.Sprintf("startMeeting() threw error: %s", appErr))
 		}
 	}

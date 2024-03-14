@@ -19,12 +19,21 @@
     "settings_schema": {
         "settings": [
             {
-                "key": "JitsiURL",
-                "display_name": "Jitsi Server URL:",
-                "type": "text",
-                "help_text": "The URL for your Jitsi server, for example https://jitsi.example.com. Defaults to https://meet.jit.si, which is the public server provided by Jitsi.",
-                "placeholder": "https://meet.jit.si",
-                "default": "https://meet.jit.si"
+                "key": "ServerType",
+                "display_name": "Server:",
+                "type": "radio",
+                "help_text": "Select the type of jitsi server you want to use.",
+                "default": "jitsi",
+                "options": [
+                    {
+                        "display_name": "Jitsi",
+                        "value": "jitsi"
+                    },
+                    {
+                        "display_name": "JaaS",
+                        "value": "jaas"
+                    }
+                ]
             },
             {
                 "key": "JitsiEmbedded",
@@ -33,6 +42,21 @@
                 "help_text": "(Experimental) When true, Jitsi video is embedded as a floating window inside Mattermost by default. Users can override this setting with '/jitsi settings'."
             },
             {
+                "key": "JitsiCompatibilityMode",
+                "display_name": "Enable Compatibility Mode:",
+                "type": "bool",
+                "help_text": "(Insecure) If your Jitsi server is not compatible with this plugin, include the JavaScript API hosted on your Jitsi server directly in Mattermost instead of the default API version provided by the plugin. **WARNING:** Enabling this setting can compromise the security of your Mattermost system, if your Jitsi server is not fully trusted and allows direct modification of program files. Use with caution.",
+                "default": false
+            },
+            {
+                "key": "JitsiURL",
+                "display_name": "Jitsi Server URL:",
+                "type": "text",
+                "help_text": "The URL for your Jitsi server, for example https://jitsi.example.com. Defaults to https://meet.jit.si, which is the public server provided by Jitsi.",
+                "placeholder": "https://meet.jit.si",
+                "default": "https://meet.jit.si"
+            },
+            {    
                 "key": "JitsiPrejoinPage",
                 "display_name": "Show pre-join page:",
                 "type": "bool",
@@ -89,11 +113,22 @@
                 "default": 30
             },
             {
-                "key": "JitsiCompatibilityMode",
-                "display_name": "Enable Compatibility Mode:",
-                "type": "bool",
-                "help_text": "(Insecure) If your Jitsi server is not compatible with this plugin, include the JavaScript API hosted on your Jitsi server directly in Mattermost instead of the default API version provided by the plugin. **WARNING:** Enabling this setting can compromise the security of your Mattermost system, if your Jitsi server is not fully trusted and allows direct modification of program files. Use with caution.",
-                "default": false
+                "key": "JaaSAppID",
+                "display_name": "AppID for JaaS Authentication:",
+                "type": "text",
+                "help_text": "Specify your JaaS AppID. You can get the AppID from https://jaas.8x8.vc/#/apikeys."
+            },
+            {
+                "key": "JaaSApiKey",
+                "display_name": "Api key ID for JaaS Authentication:",
+                "type": "text",
+                "help_text": "Specify your JaaS Api key ID. You can get the Api key ID from https://jaas.8x8.vc/#/apikeys."
+            },
+            {
+                "key": "JaaSPrivateKey",
+                "display_name": "RSA Private key for JaaS Authentication:",
+                "type": "longtext",
+                "help_text": "Specify your JaaS private key. You can get the private key by generating an API key pair from https://jaas.8x8.vc/#/apikeys OR from https://jaas.8x8.vc/#/start-guide in the Api Key section. (NOTE: While generating the key manually make sure to set the size to be 2048 and not 4096)."
             }
         ]
     }

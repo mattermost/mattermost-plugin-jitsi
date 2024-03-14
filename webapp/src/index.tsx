@@ -1,7 +1,7 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import * as React from 'react';
+import React from 'react';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
@@ -16,6 +16,7 @@ import reducer from './reducers';
 import {startMeeting, loadConfig} from './actions';
 import manifest from './manifest';
 import Client from './client';
+import App from './app';
 
 class PluginClass {
     rootPortal?: RootPortal;
@@ -40,6 +41,7 @@ class PluginClass {
             document.head.appendChild(script);
         }
         registry.registerReducer(reducer);
+        registry.registerRootComponent(App);
 
         const action = (channel: Channel) => {
             store.dispatch(startMeeting(channel.id));

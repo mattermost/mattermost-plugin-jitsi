@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Svgs from 'constants/svgs';
 
 export default class Icon extends React.PureComponent {

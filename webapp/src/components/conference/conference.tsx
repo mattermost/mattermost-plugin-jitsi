@@ -1,8 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 import {Post} from 'mattermost-redux/types/posts';
 import Constants from 'mattermost-redux/constants/general';
+import {isMeetingLinkServerTypeJaaS} from 'utils/user_utils';
+import constants from '../../constants';
 
 const BORDER_SIZE = 8;
 const POSITION_TOP = 'top';
@@ -11,18 +13,23 @@ const BUTTONS_PADDING_TOP = 10;
 const BUTTONS_PADDING_RIGHT = 2;
 const MINIMIZED_WIDTH = 384;
 const MINIMIZED_HEIGHT = 288;
+const JAAS_DOMAIN = '8x8.vc';
 const MATTERMOST_HEADER_HEIGHT = 60;
 const WINDOW_HEIGHT = 100;
 
 type Props = {
     currentUserId: string,
+    isCurrentUserSysAdmin: boolean,
+    currentChannelId: string
     post: Post | null,
     jwt: string | null,
+    useJaas: boolean
     showPrejoinPage: boolean,
     meetingEmbedded?: boolean,
     actions: {
         openJitsiMeeting: (post: Post | null, jwt: string | null) => void
         setUserStatus: (userId: string, status: string) => void
+        sendEphemeralPost:(message: string, channelID: string, userID: string) => void
     }
 }
 
@@ -92,15 +99,12 @@ export default class Conference extends React.PureComponent<Props, State> {
 
         const url = new URL(post.props.meeting_link);
 
-        const noSSL = url.protocol === 'http:';
-
         const domain = url.host;
         const options = {
             roomName: post.props.meeting_id,
             width: this.state.minimized ? MINIMIZED_WIDTH : vw,
             height: this.state.minimized ? MINIMIZED_HEIGHT : vh,
             jwt: this.props.jwt,
-            noSSL,
             parentNode: document.querySelector('#jitsiMeet'),
             onload: () => {
                 this.setState({loading: false});
@@ -111,7 +115,9 @@ export default class Conference extends React.PureComponent<Props, State> {
                 prejoinPageEnabled: this.props.meetingEmbedded && this.props.showPrejoinPage
             }
         };
-        this.api = new (window as any).JitsiMeetExternalAPI(domain, options);
+
+        this.api = new (window as any).JitsiMeetExternalAPI(post.props.jaas_meeting ? JAAS_DOMAIN : domain, options);
+
         this.api.on('videoConferenceJoined', () => {
             if (this.state.minimized) {
                 this.minimize();
@@ -181,23 +187,33 @@ export default class Conference extends React.PureComponent<Props, State> {
     }
 
     close = () => {
-        this.api.executeCommand('hangup');
-        setTimeout(() => {
-            this.props.actions.openJitsiMeeting(null, null);
-            this.props.actions.setUserStatus(this.props.currentUserId, Constants.ONLINE);
-            this.setState({
-                minimized: true,
-                loading: true,
-                position: POSITION_BOTTOM,
-                wasTileView: true,
-                isTileView: true,
-                wasFilmStrip: true,
-                isFilmStrip: true
-            });
-            if (this.api) {
-                this.api.dispose();
-            }
-        }, 200);
+        if (this.api) {
+            this.api.executeCommand('hangup');
+            setTimeout(() => {
+                this.props.actions.openJitsiMeeting(null, null);
+                this.props.actions.setUserStatus(this.props.currentUserId, Constants.ONLINE);
+                this.setState({
+                    minimized: true,
+                    loading: true,
+                    position: POSITION_BOTTOM,
+                    wasTileView: true,
+                    isTileView: true,
+                    wasFilmStrip: true,
+                    isFilmStrip: true
+                });
+                if (this.api) {
+                    this.api.dispose();
+                }
+            }, 200);
+        }
+    };
+
+    openInNewTab = (meetingLink: string) => {
+        if (isMeetingLinkServerTypeJaaS(meetingLink, this.props.useJaas)) {
+            this.props.actions.sendEphemeralPost(this.props.isCurrentUserSysAdmin ? constants.JAAS_ADMIN_EPHEMERAL_MESSAGE : constants.JAAS_EPHEMERAL_MESSAGE, this.props.currentChannelId, this.props.currentUserId);
+        } else {
+            window.open(meetingLink, '_blank');
+        }
     };
 
     minimize = () => {
@@ -235,10 +251,9 @@ export default class Conference extends React.PureComponent<Props, State> {
         }
         let meetingLink = post.props.meeting_link;
         if (this.props.jwt) {
-            meetingLink += `?jwt=${this.props.jwt}`;
+            meetingLink = this.props.useJaas ? meetingLink + `&jwt=${this.props.jwt}` : meetingLink + `?jwt=${this.props.jwt}`;
         }
         meetingLink += `#config.callDisplayName="${post.props.meeting_topic || post.props.default_meeting_topic}"`;
-
         return (
             <div style={style.buttons}>
                 {!this.props.showPrejoinPage && this.state.minimized && this.state.position === POSITION_TOP &&
@@ -302,9 +317,6 @@ export default class Conference extends React.PureComponent<Props, State> {
                 <a
                     style={{color: 'white'}}
                     onClick={this.close}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={meetingLink}
                 >
                     <FormattedMessage
                         id='jitsi.open-in-new-tab'
@@ -316,6 +328,7 @@ export default class Conference extends React.PureComponent<Props, State> {
                                 className='icon icon-arrow-left'
                                 aria-label={text}
                                 title={text}
+                                onClick={() => this.openInNewTab(meetingLink)}
                             />
                         )}
                     </FormattedMessage>
