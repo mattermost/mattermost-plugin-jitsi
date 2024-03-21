@@ -59,7 +59,8 @@ describe('PostTypeJitsi', () => {
         creatorName: 'test',
         currentUser: {
             first_name: 'First',
-            last_name: 'Last'
+            last_name: 'Last',
+            username: 'firstLast'
         },
         useMilitaryTime: false,
         meetingEmbedded: false,

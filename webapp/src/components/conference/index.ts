@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 
 import {GlobalState, plugin} from 'types';
 import {openJitsiMeeting, setUserStatus} from 'actions';
@@ -13,7 +13,7 @@ function mapStateToProps(state: GlobalState) {
     const config = state[`plugins-${manifest.id}` as plugin].config;
 
     return {
-        currentUserId: getCurrentUserId(state),
+        currentUser: getCurrentUser(state),
         post: state[`plugins-${manifest.id}` as plugin].openMeeting,
         jwt: state[`plugins-${manifest.id}` as plugin].openMeetingJwt,
         showPrejoinPage: config.show_prejoin_page,

@@ -15,7 +15,10 @@ const MATTERMOST_HEADER_HEIGHT = 60;
 const WINDOW_HEIGHT = 100;
 
 type Props = {
-    currentUserId: string,
+    currentUser: {
+        id: string;
+        username: string;
+    },
     post: Post | null,
     jwt: string | null,
     showPrejoinPage: boolean,
@@ -106,6 +109,9 @@ export default class Conference extends React.PureComponent<Props, State> {
                 this.setState({loading: false});
                 this.resizeIframe();
             },
+            userInfo: {
+                displayName: this.props.currentUser.username
+            },
             configOverwrite: {
                 // Disable the pre-join page
                 prejoinPageEnabled: this.props.meetingEmbedded && this.props.showPrejoinPage
@@ -184,7 +190,7 @@ export default class Conference extends React.PureComponent<Props, State> {
         this.api.executeCommand('hangup');
         setTimeout(() => {
             this.props.actions.openJitsiMeeting(null, null);
-            this.props.actions.setUserStatus(this.props.currentUserId, Constants.ONLINE);
+            this.props.actions.setUserStatus(this.props.currentUser.id, Constants.ONLINE);
             this.setState({
                 minimized: true,
                 loading: true,
@@ -238,7 +244,7 @@ export default class Conference extends React.PureComponent<Props, State> {
             meetingLink += `?jwt=${this.props.jwt}`;
         }
         meetingLink += `#config.callDisplayName="${post.props.meeting_topic || post.props.default_meeting_topic}"`;
-
+        meetingLink = encodeURI(meetingLink);
         return (
             <div style={style.buttons}>
                 {!this.props.showPrejoinPage && this.state.minimized && this.state.position === POSITION_TOP &&

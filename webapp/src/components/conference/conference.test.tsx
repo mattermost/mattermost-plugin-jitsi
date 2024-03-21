@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {describe, expect, it} from '@jest/globals';
+import {describe, expect, it, jest} from '@jest/globals';
 import {shallow} from 'enzyme';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post, PostMetadata, PostType} from 'mattermost-redux/types/posts';
 
 import Conference from './conference';
 
@@ -20,7 +20,7 @@ describe('Conference', () => {
         root_id: '',
         parent_id: '',
         original_id: '',
-        type: 'custom_jitsi',
+        type: 'custom_jitsi' as PostType,
         hashtags: '',
         props: {
             jwt_meeting_valid_until: 123,
@@ -30,7 +30,10 @@ describe('Conference', () => {
             meeting_topic: 'Test topic',
             meeting_id: 'test',
             meeting_personal: false
-        }
+        },
+        metadata: {} as PostMetadata,
+        pending_post_id: 'test',
+        reply_count: 100
     };
 
     const actions = {
@@ -42,7 +45,10 @@ describe('Conference', () => {
         post: basePost,
         jwt: null,
         actions,
-        currentUserId: 'test'
+        currentUser: {
+            id: 'mockId',
+            username: 'firstLast'
+        }
     };
 
     Conference.prototype.getViewportWidth = () => 10;
