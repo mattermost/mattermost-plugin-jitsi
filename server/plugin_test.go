@@ -39,6 +39,7 @@ func TestSignClaims(t *testing.T) {
 	claims.ExpiresAt = jwt.NewNumericDate(time.Time{})
 	claims.Subject = "test"
 	claims.Room = "test"
+	claims.Moderator = true
 
 	token, err := signClaims("test-secret", &claims)
 	require.Nil(t, err)

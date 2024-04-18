@@ -117,8 +117,10 @@ type EnrichMeetingJwtRequest struct {
 // Claims extents cristalhq/jwt standard claims to add jitsi-web-token specific fields
 type Claims struct {
 	jwt.StandardClaims
-	Context Context `json:"context"`
-	Room    string  `json:"room,omitempty"`
+	Context   Context `json:"context"`
+	Room      string  `json:"room,omitempty"`
+	Moderator bool    `json:"moderator,omitempty"`  // only the user started the meeting is moderator
+	CreatorID string  `json:"creator_id,omitempty"` // store id of user who start the meeting
 }
 
 func verifyJwt(secret string, jwtToken string) (*Claims, error) {
@@ -205,6 +207,7 @@ func (p *Plugin) updateJwtUserInfo(jwtToken string, user *model.User) (string, e
 	}
 
 	claims.Context = newContext
+	claims.Moderator = sanitizedUser.Id == claims.CreatorID
 
 	return signClaims(secret, claims)
 }
@@ -285,6 +288,8 @@ func (p *Plugin) startMeeting(user *model.User, channel *model.Channel, meetingI
 		claims.ExpiresAt = jwt.NewNumericDate(meetingLinkValidUntil)
 		claims.Subject = jURL.Hostname()
 		claims.Room = meetingID
+		claims.Moderator = false
+		claims.CreatorID = user.Id
 
 		var err2 error
 		jwtToken, err2 = signClaims(p.getConfiguration().JitsiAppSecret, &claims)

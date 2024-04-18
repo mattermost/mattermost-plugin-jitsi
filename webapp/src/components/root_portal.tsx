@@ -16,6 +16,14 @@ export class InjectionProvider extends React.Component<any> {
     }
 }
 
+export class InjectionProvider extends React.Component<any> {
+    public render(): JSX.Element {
+        const stores = {...this.props};
+        delete stores.children;
+        return React.createElement(Provider as any, stores, this.props.children);
+    }
+}
+
 export default class RootPortal {
     el: HTMLElement;
     store: any;
