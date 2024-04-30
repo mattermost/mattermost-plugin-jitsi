@@ -1,1 +1,14 @@
-{}
+{
+  "jitsi.close": "Sluiten",
+  "jitsi.creator-has-started-a-meeting": "{creator} is een vergadering gestart",
+  "jitsi.default-title": "Jitsi Vergadering",
+  "jitsi.join-meeting": "DEELNEMEN",
+  "jitsi.link-valid-until": "Vergaderlink geldig tot: ",
+  "jitsi.maximize": "Maximaliseren",
+  "jitsi.meeting-id": "Vergaderings-ID: ",
+  "jitsi.minimize": "Minimaliseren",
+  "jitsi.move-down": "Naar beneden",
+  "jitsi.move-up": "Omhoog",
+  "jitsi.open-in-new-tab": "Openen in nieuw tabblad",
+  "jitsi.personal-meeting-id": "Persoonlijke vergadering-ID: "
+}
