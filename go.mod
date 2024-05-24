@@ -6,7 +6,7 @@ require (
 	github.com/cristalhq/jwt/v2 v2.0.0
 	github.com/google/uuid v1.5.0
 	github.com/mattermost/mattermost/server/public v0.0.12
-	github.com/nicksnyder/go-i18n/v2 v2.3.0
+	github.com/nicksnyder/go-i18n/v2 v2.4.0
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.8.4
 )
