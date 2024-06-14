@@ -1,5 +1,5 @@
-import * as React from 'react';
-import {describe, expect, it} from '@jest/globals';
+import React from 'react';
+import {jest, describe, expect, it} from '@jest/globals';
 import {shallow} from 'enzyme';
 
 import {Post} from 'mattermost-redux/types/posts';
@@ -28,7 +28,7 @@ describe('Conference', () => {
             jwt_meeting: true,
             meeting_jwt: 'xxxxxxxxxxxx',
             meeting_topic: 'Test topic',
-            meeting_id: 'test',
+            meeting_id: 'test_meeting_id',
             meeting_personal: false
         }
     };

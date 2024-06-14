@@ -11,6 +11,8 @@ server/manifest.go
 
 assets/i18n/translate.*.json
 
+public/jaas
+
 # Jetbrains
 .idea/
 

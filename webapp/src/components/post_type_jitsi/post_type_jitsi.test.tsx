@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {jest, describe, expect, it} from '@jest/globals';
 import {shallow} from 'enzyme';
 

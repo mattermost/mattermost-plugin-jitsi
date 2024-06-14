@@ -62,7 +62,7 @@ exports[`PostTypeJitsi should render a post if the post type is not null, and sh
             values={Object {}}
           />
           <a
-            href="http://test-meeting-link/test?jwt=xxxxxxxxxxxx#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"First Last\\""
+            href="http://test-meeting-link/test?jwt=xxxxxxxxxxxx#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"undefined\\""
             onClick={[Function]}
             rel="noopener noreferrer"
             target="_blank"
@@ -84,7 +84,7 @@ exports[`PostTypeJitsi should render a post if the post type is not null, and sh
             <div>
               <a
                 className="btn btn-lg btn-primary"
-                href="http://test-meeting-link/test?jwt=xxxxxxxxxxxx#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"First Last\\""
+                href="http://test-meeting-link/test?jwt=xxxxxxxxxxxx#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"undefined\\""
                 onClick={[Function]}
                 rel="noopener noreferrer"
                 style={
@@ -207,7 +207,7 @@ exports[`PostTypeJitsi should render a post without token if there is no jwt tok
             values={Object {}}
           />
           <a
-            href="http://test-meeting-link/test#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"First Last\\""
+            href="http://test-meeting-link/test#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"undefined\\""
             onClick={[Function]}
             rel="noopener noreferrer"
             target="_blank"
@@ -229,7 +229,7 @@ exports[`PostTypeJitsi should render a post without token if there is no jwt tok
             <div>
               <a
                 className="btn btn-lg btn-primary"
-                href="http://test-meeting-link/test#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"First Last\\""
+                href="http://test-meeting-link/test#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"undefined\\""
                 onClick={[Function]}
                 rel="noopener noreferrer"
                 style={
@@ -338,7 +338,7 @@ exports[`PostTypeJitsi should render the a different subtitle if the meeting is 
             values={Object {}}
           />
           <a
-            href="http://test-meeting-link/test?jwt=xxxxxxxxxxxx#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"First Last\\""
+            href="http://test-meeting-link/test?jwt=xxxxxxxxxxxx#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"undefined\\""
             onClick={[Function]}
             rel="noopener noreferrer"
             target="_blank"
@@ -360,7 +360,7 @@ exports[`PostTypeJitsi should render the a different subtitle if the meeting is 
             <div>
               <a
                 className="btn btn-lg btn-primary"
-                href="http://test-meeting-link/test?jwt=xxxxxxxxxxxx#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"First Last\\""
+                href="http://test-meeting-link/test?jwt=xxxxxxxxxxxx#config.callDisplayName=\\"Test topic\\"&userInfo.displayName=\\"undefined\\""
                 onClick={[Function]}
                 rel="noopener noreferrer"
                 style={

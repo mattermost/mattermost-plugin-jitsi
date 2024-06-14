@@ -74,15 +74,12 @@ exports[`Conference should render and initialize the conference interface 1`] = 
       <Component />
     </FormattedMessage>
     <a
-      href="http://test-meeting-link/test#config.callDisplayName=\\"Test topic\\""
       onClick={[Function]}
-      rel="noopener noreferrer"
       style={
         Object {
           "color": "white",
         }
       }
-      target="_blank"
     >
       <FormattedMessage
         defaultMessage="Open in new tab"
@@ -179,15 +176,12 @@ exports[`Conference should show the correct buttons depending on the state shoul
       <Component />
     </FormattedMessage>
     <a
-      href="http://test-meeting-link/test#config.callDisplayName=\\"Test topic\\""
       onClick={[Function]}
-      rel="noopener noreferrer"
       style={
         Object {
           "color": "white",
         }
       }
-      target="_blank"
     >
       <FormattedMessage
         defaultMessage="Open in new tab"
@@ -289,15 +283,12 @@ exports[`Conference should show the correct buttons depending on the state shoul
       <Component />
     </FormattedMessage>
     <a
-      href="http://test-meeting-link/test#config.callDisplayName=\\"Test topic\\""
       onClick={[Function]}
-      rel="noopener noreferrer"
       style={
         Object {
           "color": "white",
         }
       }
-      target="_blank"
     >
       <FormattedMessage
         defaultMessage="Open in new tab"
@@ -392,15 +383,12 @@ exports[`Conference should show the correct buttons depending on the state shoul
       <Component />
     </FormattedMessage>
     <a
-      href="http://test-meeting-link/test#config.callDisplayName=\\"Test topic\\""
       onClick={[Function]}
-      rel="noopener noreferrer"
       style={
         Object {
           "color": "white",
         }
       }
-      target="_blank"
     >
       <FormattedMessage
         defaultMessage="Open in new tab"
@@ -471,15 +459,12 @@ exports[`Conference should show the the loading spinner depending on the state s
       <Component />
     </FormattedMessage>
     <a
-      href="http://test-meeting-link/test#config.callDisplayName=\\"Test topic\\""
       onClick={[Function]}
-      rel="noopener noreferrer"
       style={
         Object {
           "color": "white",
         }
       }
-      target="_blank"
     >
       <FormattedMessage
         defaultMessage="Open in new tab"
@@ -574,15 +559,12 @@ exports[`Conference should show the the loading spinner depending on the state s
       <Component />
     </FormattedMessage>
     <a
-      href="http://test-meeting-link/test#config.callDisplayName=\\"Test topic\\""
       onClick={[Function]}
-      rel="noopener noreferrer"
       style={
         Object {
           "color": "white",
         }
       }
-      target="_blank"
     >
       <FormattedMessage
         defaultMessage="Open in new tab"

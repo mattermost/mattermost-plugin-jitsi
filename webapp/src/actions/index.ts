@@ -108,3 +108,26 @@ export function setUserStatus(userId: string, status: string): ActionFunc {
         }
     };
 }
+
+export function sendEphemeralPost(message: string, channelID: string, userID: string): ActionFunc {
+    return (dispatch: DispatchFunc): ActionResult => {
+        const timestamp = Date.now();
+        const post = {
+            id: 'jitsi' + timestamp,
+            user_id: userID,
+            channel_id: channelID,
+            message,
+            type: 'system_ephemeral',
+            create_at: timestamp,
+            update_at: timestamp
+        };
+
+        dispatch({
+            type: PostTypes.RECEIVED_NEW_POST,
+            data: post,
+            channelID
+        });
+
+        return {data: post};
+    };
+}

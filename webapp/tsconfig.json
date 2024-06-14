@@ -9,6 +9,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "isolatedModules": true,
     "noEmit": true,
     "experimentalDecorators": true,
@@ -17,7 +18,7 @@
     "types": ["jest", "node"]
   },
   "include": [
-    "src"
+    "src",
   ],
   "exclude": [
     "dist",
